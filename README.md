@@ -1,9 +1,10 @@
 # Numeratio - Mental Math Trainer
 
 <img width="520" alt="Screenshot 2024-05-06 at 19 21 30" src="https://github.com/sadstitch003/numeratio/assets/80204631/6b666616-4466-4f3e-aeb2-90538368d886">
-<br>
-<img width="380" alt="Screenshot 2024-05-06 at 19 21 56" src="https://github.com/sadstitch003/numeratio/assets/80204631/3d77168a-2525-44e4-bd85-fe5288941364">
-<img width="380" alt="Screenshot 2024-05-06 at 19 22 15" src="https://github.com/sadstitch003/numeratio/assets/80204631/5705e4c5-3264-4696-9c73-f4c393a4c8d7">
+<br><br>
+<img width="300" alt="Screenshot 2024-05-06 at 19 21 56" src="https://github.com/sadstitch003/numeratio/assets/80204631/3d77168a-2525-44e4-bd85-fe5288941364">
+<br><br>
+<img width="300" alt="Screenshot 2024-05-06 at 19 22 15" src="https://github.com/sadstitch003/numeratio/assets/80204631/5705e4c5-3264-4696-9c73-f4c393a4c8d7">
 
 
 ## Description

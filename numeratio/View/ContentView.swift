@@ -9,6 +9,8 @@ import SwiftUI
 
 
 struct ContentView: View {
+    @State var showGameSetting: Bool = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -20,23 +22,29 @@ struct ContentView: View {
                     MenuItem(
                         title: "Singleplayer",
                         caption: "Customize exercise to enhance your skills",
-                        image: "person",
-                        destination: AnyView(GameView(gameLevel: 3, operators: ["+", "-", "×", "÷"], totalQuestion: 5))
+                        image: "person"
                     )
+                    .onTapGesture {
+                        showGameSetting = true
+                    }
+                    .sheet(isPresented: $showGameSetting, content: {
+                        GameSettingModalView()
+                            .presentationDetents([.fraction(0.7)])
+                    })
                     
-                    MenuItem(
-                        title: "Multiplayer",
-                        caption: "Analyze your daily exercise progress",
-                        image: "text.magnifyingglass",
-                        destination: AnyView(GameView(gameLevel: 3, operators: ["+", "-", "×", "÷"], totalQuestion: 5))
-                    )
-                    
-                    MenuItem(
-                        title: "Analyze",
-                        caption: "Compete for precision and speed",
-                        image: "person.2",
-                        destination: AnyView(GameView(gameLevel: 3, operators: ["+", "-", "×", "÷"], totalQuestion: 5))
-                    )
+//                    MenuItem(
+//                        title: "Multiplayer",
+//                        caption: "Compete for precision and speed",
+//                        image: "text.magnifyingglass"
+//                    )
+                  
+                    NavigationLink (destination: GameHistory()) {
+                        MenuItem(
+                            title: "History",
+                            caption: "Analyze your counting speed history",
+                            image: "person.2"
+                        )
+                    }
                     
                     Spacer()
                 }
@@ -75,45 +83,39 @@ struct MenuItem: View {
     let title: String
     let caption: String
     let image: String
-    let destination: AnyView
     
     var body: some View {
-        NavigationLink (destination: destination){
-            HStack {
-                Image(systemName: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 32)
-                    .padding(.trailing, 8)
-                    .foregroundStyle(Color.black)
-                
-                VStack {
-                    HStack {
-                        Text(title)
-                            .foregroundStyle(Color.black)
-                            .font(.title2)
-                            .fontWeight(.bold)
-                        Spacer()
-                    }
-                    HStack {
-                        Text(caption)
-                            .foregroundStyle(Color.black)
-                            .font(.caption)
-                        Spacer()
-                    }
+        HStack {
+            Image(systemName: image)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32)
+                .padding(.trailing, 8)
+                .foregroundStyle(Color.black)
+            
+            VStack {
+                HStack {
+                    Text(title)
+                        .foregroundStyle(Color.black)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
                 }
-                Spacer()
+                HStack {
+                    Text(caption)
+                        .foregroundStyle(Color.black)
+                        .font(.caption)
+                    Spacer()
+                }
             }
-            .frame(width: 320, height: 40)
-            .padding()
-            .background(Color("InteractiveColor"))
-            .cornerRadius(8)
+            Spacer()
         }
+        .frame(width: 320, height: 40)
+        .padding()
+        .background(Color("InteractiveColor"))
+        .cornerRadius(8)
     }
 }
-
-
-
 
 #Preview {
     ContentView()

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct numeratioApp: App {
@@ -13,5 +14,6 @@ struct numeratioApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: AverageSpeed.self)
     }
 }

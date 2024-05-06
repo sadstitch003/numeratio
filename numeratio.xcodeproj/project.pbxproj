@@ -10,6 +10,9 @@
 		AA1AC41C2BDBA12200E5946C /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1AC41B2BDBA12200E5946C /* GameView.swift */; };
 		AAE0DE0E2BE377C700440485 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE0DE0D2BE377C700440485 /* PauseView.swift */; };
 		AAE0DE102BE378BC00440485 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE0DE0F2BE378BC00440485 /* GameOverView.swift */; };
+		AAE0DE142BE4C83200440485 /* GameSettingModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE0DE132BE4C83200440485 /* GameSettingModalView.swift */; };
+		AAE0DE162BE6627200440485 /* AverageSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE0DE152BE6627200440485 /* AverageSpeed.swift */; };
+		AAE0DE192BE6692D00440485 /* GameHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE0DE182BE6692C00440485 /* GameHistory.swift */; };
 		AAEB56AF2BDA60F900087276 /* numeratioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEB56AE2BDA60F900087276 /* numeratioApp.swift */; };
 		AAEB56B12BDA60F900087276 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEB56B02BDA60F900087276 /* ContentView.swift */; };
 		AAEB56B32BDA60FB00087276 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAEB56B22BDA60FB00087276 /* Assets.xcassets */; };
@@ -40,6 +43,9 @@
 		AA1AC41B2BDBA12200E5946C /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		AAE0DE0D2BE377C700440485 /* PauseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
 		AAE0DE0F2BE378BC00440485 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
+		AAE0DE132BE4C83200440485 /* GameSettingModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingModalView.swift; sourceTree = "<group>"; };
+		AAE0DE152BE6627200440485 /* AverageSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageSpeed.swift; sourceTree = "<group>"; };
+		AAE0DE182BE6692C00440485 /* GameHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHistory.swift; sourceTree = "<group>"; };
 		AAEB56AB2BDA60F900087276 /* numeratio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = numeratio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAEB56AE2BDA60F900087276 /* numeratioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = numeratioApp.swift; sourceTree = "<group>"; };
 		AAEB56B02BDA60F900087276 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,11 +87,21 @@
 			isa = PBXGroup;
 			children = (
 				AAEB56B02BDA60F900087276 /* ContentView.swift */,
+				AAE0DE132BE4C83200440485 /* GameSettingModalView.swift */,
 				AA1AC41B2BDBA12200E5946C /* GameView.swift */,
 				AAE0DE0D2BE377C700440485 /* PauseView.swift */,
 				AAE0DE0F2BE378BC00440485 /* GameOverView.swift */,
+				AAE0DE182BE6692C00440485 /* GameHistory.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		AAE0DE172BE6629400440485 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AAE0DE152BE6627200440485 /* AverageSpeed.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		AAEB56A22BDA60F900087276 = {
@@ -112,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				AAEB56AE2BDA60F900087276 /* numeratioApp.swift */,
+				AAE0DE172BE6629400440485 /* Model */,
 				AA1AC41A2BDBA10D00E5946C /* View */,
 				AAEB56B42BDA60FB00087276 /* Preview Content */,
 				AAEB56B22BDA60FB00087276 /* Assets.xcassets */,
@@ -275,6 +292,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA1AC41C2BDBA12200E5946C /* GameView.swift in Sources */,
+				AAE0DE192BE6692D00440485 /* GameHistory.swift in Sources */,
+				AAE0DE162BE6627200440485 /* AverageSpeed.swift in Sources */,
+				AAE0DE142BE4C83200440485 /* GameSettingModalView.swift in Sources */,
 				AAEB56B12BDA60F900087276 /* ContentView.swift in Sources */,
 				AAE0DE102BE378BC00440485 /* GameOverView.swift in Sources */,
 				AAEB56AF2BDA60F900087276 /* numeratioApp.swift in Sources */,

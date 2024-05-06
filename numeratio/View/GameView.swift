@@ -1,15 +1,18 @@
 //
-//  DailyExerciseView.swift
+//  GameView.swift
 //  numeratio
 //
 //  Created by Christian on 26/04/24.
 //
 
 import SwiftUI
+import SwiftData
 
 struct GameView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
+    
     @State private var currentQuestion: String = ""
     @State private var userInput: String = ""
     @State private var answeredQuestion: Int = 0
@@ -19,8 +22,8 @@ struct GameView: View {
     @State private var gamePaused: Bool = false
     @State private var gameOver: Bool = false
     
-    let gameLevel: Int
-    let operators: [String]
+    let difficultyLevel: Int
+    let selectedOperators: [String]
     let totalQuestion: Int
     
     private let timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
@@ -33,69 +36,87 @@ struct GameView: View {
     }
     
     var body: some View {
-        ZStack {
-            VStack {
-                ScoreAndTime(answeredQuestion: answeredQuestion, totalQuestion: totalQuestion, formattedTime: formattedTime)
-                    .padding()
-                    .onReceive(timer) { _ in
-                        elapsedTime += !(gamePaused || gameOver) ? 1 : 0
-                    }
-                Spacer()
-                
-                MainContent(currentQuestion: currentQuestion, userInput: userInput)
-                Spacer()
-                
-                NumPad(userInput: $userInput, inputDone: $inputDone)
-                    .onChange(of: inputDone) {
-                        if (inputDone) {
-                            if (userInput == String(correctAnswer)) {
-                                if (answeredQuestion == totalQuestion) {
-                                    gameOver = true
-                                } else {
+        NavigationStack {
+            ZStack {
+                VStack {
+                    ScoreAndTime(answeredQuestion: answeredQuestion, totalQuestion: totalQuestion, formattedTime: formattedTime)
+                        .padding()
+                        .onReceive(timer) { _ in
+                            elapsedTime += !(gamePaused || gameOver) ? 1 : 0
+                        }
+                    Spacer()
+                    
+                    MainContent(currentQuestion: currentQuestion, userInput: userInput)
+                    Spacer()
+                    
+                    NumPad(userInput: $userInput, inputDone: $inputDone)
+                        .onChange(of: inputDone) {
+                            if (inputDone) {
+                                if (userInput == String(correctAnswer)) {
                                     answeredQuestion += 1
-                                    generateNewQuestion(level: gameLevel, operators: operators)
+                                    if (answeredQuestion == totalQuestion) {
+                                        addAverageSpeed()
+                                        gameOver = true
+                                    } else {
+                                        generateNewQuestion(level: difficultyLevel, operators: selectedOperators)
+                                    }
+                                } else {
+                                    // If answer is false
                                 }
-                            } else {
+                                userInput = ""
+                                inputDone = false
                             }
-                            
-                            userInput = ""
-                            inputDone = false
+                        }
+                }
+                .navigationBarTitle("Singleplayer", displayMode: .inline)
+                .onAppear{
+                    generateNewQuestion(level: difficultyLevel, operators: selectedOperators)
+                }
+                .fullScreenCover(isPresented: $gamePaused) {
+                    PauseView(gamePaused: $gamePaused)
+                        .presentationBackground(colorScheme == .dark ? .white.opacity(0.5) : .black.opacity(0.5))
+                        .onDisappear {
+                            generateNewQuestion(level: difficultyLevel, operators: selectedOperators)
+                        }
+                }
+                .fullScreenCover(isPresented: $gameOver) {
+                    GameOverView(gameOver: $gameOver, averageCalculationSpeed: (Double(elapsedTime) / 100) / Double(totalQuestion))
+                        .presentationBackground(colorScheme == .dark ? .white.opacity(0.5) : .black.opacity(0.5))
+                        .onDisappear {
+                            dismiss()
+                        }
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            gamePaused = true
+                        }) {
+                            Image(systemName: "pause.fill")
+                                .foregroundColor(.cyan)
                         }
                     }
-            }
-            .navigationBarTitle("Daily Exercise", displayMode: .inline)
-            .onAppear{
-                generateNewQuestion(level: gameLevel, operators: operators)
-            }
-            .fullScreenCover(isPresented: $gamePaused) {
-                PauseView(gamePaused: $gamePaused)
-                    .presentationBackground(colorScheme == .dark ? .white.opacity(0.5) : .black.opacity(0.5))
-                    .onDisappear {
-                        generateNewQuestion(level: gameLevel, operators: operators)
-                    }
-            }
-            .fullScreenCover(isPresented: $gameOver) {
-                GameOverView(gameOver: $gameOver, averageCalculationSpeed: (Double(elapsedTime) / 100) / Double(totalQuestion))
-                    .presentationBackground(colorScheme == .dark ? .white.opacity(0.5) : .black.opacity(0.5))
-                    .onDisappear {
-                        dismiss()
-                    }
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        gamePaused = true
-                    }) {
-                        Image(systemName: "pause.fill")
-                            .foregroundColor(.cyan)
+                    
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            Text("< Menu")
+                                .foregroundColor(.cyan)
+                        }
                     }
                 }
             }
         }
     }
     
+    func addAverageSpeed() {
+        let avgSpeedData = AverageSpeed(date: Date(), averageSpeed: (Double(elapsedTime) / 100) / Double(totalQuestion))
+        context.insert(avgSpeedData)
+    }
+    
     func generateNewQuestion(level: Int, operators: [String]) {
-        let operators = operators
+        var operators = operators
+        operators.count == 0 ? operators = ["+"] : ()
         let randomOperator = Int.random(in: 0...operators.count - 1)
         let (min, max): (Int, Int) = {
             switch level {
@@ -117,24 +138,43 @@ struct GameView: View {
         var randomNumber1: Int = 0
         var randomNumber2: Int = 0
         
-        correctAnswer = Int.random(in: min...max)
-        
         switch operators[randomOperator] {
         case "+":
+            correctAnswer = Int.random(in: min...max)
             randomNumber1 = Int.random(in: 0...correctAnswer)
             randomNumber2 = correctAnswer - randomNumber1
             
         case "-":
+            correctAnswer = Int.random(in: min...max)
             randomNumber1 = correctAnswer
             randomNumber2 = Int.random(in: 0...randomNumber1)
             correctAnswer = randomNumber1 - randomNumber2
             
         case "×":
+            let tempAnswer = {
+                var randNum = Int.random(in: min...max)
+                while (factors(of: randNum).count < 4) {
+                    randNum = Int.random(in: min...max)
+                }
+                return randNum
+            }
+            
+            correctAnswer = tempAnswer()
             let factor = factors(of: correctAnswer)
             randomNumber1 = factor[Int.random(in: factor.count / 4...factor.count - (factor.count / 4) - 1)]
             randomNumber2 = correctAnswer / randomNumber1
             
         case "÷":
+            let tempAnswer = {
+                var randNum = Int.random(in: min...max)
+                while (factors(of: randNum).count <= level + 1) {
+                    randNum = Int.random(in: min...max)
+                }
+                return randNum
+            }
+            
+            correctAnswer = tempAnswer()
+            
             let factor = factors(of: correctAnswer)
             randomNumber1 = correctAnswer
             randomNumber2 = randomNumber1 / factor[Int.random(in: factor.count / 4...factor.count - (factor.count / 4) - 1)]
@@ -289,10 +329,6 @@ struct NumPad: View {
             if (userInput.count > 0) {
                 userInput.removeLast()
             }
-        case 0:
-            if (userInput.count < 3 && userInput.count > 0) {
-                userInput += String(number)
-            }
         default:
             if (userInput.count < 3) {
                 userInput += String(number)
@@ -303,6 +339,6 @@ struct NumPad: View {
 
 struct DailyExerciseView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView(gameLevel: 3, operators: ["+", "-", "×", "÷"], totalQuestion: 5)
+        GameView(difficultyLevel: 3, selectedOperators: ["+", "-", "×", "÷"], totalQuestion: 5)
     }
 }

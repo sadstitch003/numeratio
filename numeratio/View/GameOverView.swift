@@ -1,5 +1,5 @@
 //
-//  GameEndedView.swift
+//  GameOverView.swift
 //  numeratio
 //
 //  Created by Christian on 02/05/24.

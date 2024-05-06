@@ -52,9 +52,19 @@ struct GameHistory: View {
                     List {
                         ForEach (averageSpeedHistory.sorted { $0.date > $1.date }) { data in
                             HStack {
-                                Text("\(data.date.formatted(date: .abbreviated, time: .shortened)) sec")
-                                Spacer()
-                                Text(String(format: "%.2f", data.averageSpeed))
+                                VStack{
+                                    HStack {
+                                        Text("Level \(data.level)")
+                                            .bold()
+                                        Spacer()
+                                    }
+                                    HStack {
+                                        Text("\(data.date.formatted(date: .abbreviated, time: .shortened))")
+                                            .font(.caption)
+                                        Spacer()
+                                    }
+                                }
+                                Text(String(format: "%.2f sec", data.averageSpeed))
                             }
                         }
                         .onDelete { indexes in

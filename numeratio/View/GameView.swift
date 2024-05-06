@@ -110,7 +110,7 @@ struct GameView: View {
     }
     
     func addAverageSpeed() {
-        let avgSpeedData = AverageSpeed(date: Date(), averageSpeed: (Double(elapsedTime) / 100) / Double(totalQuestion))
+        let avgSpeedData = AverageSpeed(date: Date(), level: difficultyLevel, averageSpeed: (Double(elapsedTime) / 100) / Double(totalQuestion))
         context.insert(avgSpeedData)
     }
     

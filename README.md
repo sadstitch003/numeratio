@@ -15,6 +15,8 @@ Numeratio is a powerful tool designed to enhance your mental math skills through
 
 - **SwiftData:** Employing SwiftData for efficient data handling and storage, ensuring seamless user experience and performance.
 
+- **Adaptive Dark/Light Mode Support:** Seamlessly adapts to the user's system-wide appearance preference, providing a comfortable viewing experience in both light and dark modes.
+
 ## Navigation
 - **Modals:** Seamlessly navigate through the app with context-specific modal views, allowing easy access to settings and achievements without disrupting your training.
 

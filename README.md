@@ -8,7 +8,7 @@
 
 
 ## Description
-Numeratio is a powerful tool designed to enhance your mental math skills through personalized training sessions. Whether you're a math enthusiast or seeking to improve your arithmetic abilities, Numeratio offers customizable features to cater to your learning preferences.
+Numeratio is an app designed to enhance your mental math skills through personalized training sessions. Whether you're a math enthusiast or seeking to improve your arithmetic abilities, Numeratio offers customizable features to cater to your learning preferences.
 
 ## Features
 - **Math Operator Customization:** Choose specific math operators to focus on during your practice sessions, including addition, subtraction, multiplication, and division.

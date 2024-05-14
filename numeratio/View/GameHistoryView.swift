@@ -9,22 +9,21 @@ import SwiftUI
 import SwiftData
 import Charts
 
-struct GameHistory: View {
-    @Environment(\.modelContext) private var context
-    @Query private var averageSpeedHistory: [AverageSpeed]
+struct GameHistoryView: View {
     
-    var latestData: [AverageSpeed] {
-        return Array(averageSpeedHistory.sorted { $0.date < $1.date }.prefix(8))
-    }
+    @State var viewModel = GameHistoryViewModel()
+    
+    @Environment(\.modelContext) private var context
+
     
     var body: some View {
         NavigationStack {
             VStack {
-                if (averageSpeedHistory.count == 0) {
+                if (viewModel.averageSpeedHistory.count == 0) {
                     Text("No Data")
                 } else {
                     Chart {
-                        ForEach(latestData, id: \.id) { data in
+                        ForEach(viewModel.latestData, id: \.id) { data in
                             LineMark(
                                 x: .value("Date", data.date.formatted(date: .abbreviated, time: .shortened)),
                                 y: .value("Average Speed", data.averageSpeed)
@@ -50,7 +49,7 @@ struct GameHistory: View {
                     }
                     
                     List {
-                        ForEach (averageSpeedHistory.sorted { $0.date > $1.date }) { data in
+                        ForEach (viewModel.averageSpeedHistory.sorted { $0.date > $1.date }) { data in
                             HStack {
                                 VStack{
                                     HStack {
@@ -69,7 +68,7 @@ struct GameHistory: View {
                         }
                         .onDelete { indexes in
                             for index in indexes {
-                                deleteData(averageSpeedHistory[index])
+                                viewModel.deleteData(viewModel.averageSpeedHistory[index])
                             }
                         }
                     }
@@ -77,15 +76,15 @@ struct GameHistory: View {
             }
             .navigationBarTitle("Game History")
         }
-    }
-    
-    func deleteData(_ data: AverageSpeed) {
-        context.delete(data)
+        .onAppear {
+            viewModel.context = context
+            viewModel.fetchData()
+        }
     }
 }
 
 
 
 #Preview {
-    GameHistory()
+    GameHistoryView()
 }

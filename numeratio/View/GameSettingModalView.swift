@@ -73,12 +73,16 @@ struct GameSettingModalView: View {
             }
             .navigationBarTitle("Game Setting")
         }
-        .fullScreenCover(isPresented: $startGame, content: {
-            GameView(difficultyLevel: difficultyLevel, selectedOperators: selectedOperators, totalQuestion: numberOfQuestion)
-                .onDisappear {
-                    dismiss()
-                }
-        })
+        .fullScreenCover(isPresented: $startGame){
+            GameView(
+                difficultyLevel: difficultyLevel,
+                selectedOperators: selectedOperators,
+                totalQuestion: numberOfQuestion
+            )
+            .onDisappear {
+                dismiss()
+            }
+        }
     }
 }
 

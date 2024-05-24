@@ -32,13 +32,13 @@ struct ContentView: View {
                             .presentationDetents([.fraction(0.7)])
                     })
                     
-                    MenuItem(
-                        title: "Multiplayer",
-                        caption: "Compete for precision and speed",
-                        image: "person.2"
-                    )
-                    .disabled(true)
-                    .opacity(0.5)
+//                    MenuItem(
+//                        title: "Multiplayer",
+//                        caption: "Compete for precision and speed",
+//                        image: "person.2"
+//                    )
+//                    .disabled(true)
+//                    .opacity(0.7)
                   
                     NavigationLink (destination: GameHistoryView()) {
                         MenuItem(

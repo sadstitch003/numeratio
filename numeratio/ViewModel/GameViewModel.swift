@@ -53,7 +53,7 @@ import SwiftData
             case 4:
                 return (80, 499)
             case 5:
-                return (300, 999)
+                return (300, 899)
             default:
                 return (1, 999)
             }
@@ -64,16 +64,13 @@ import SwiftData
         
         switch operators[randomOperator] {
         case "+":
-            correctAnswer = Int.random(in: min...max)
-            randomNumber1 = Int.random(in: 0...correctAnswer)
+            correctAnswer = Int.random(in: min...(max + 5))
+            randomNumber1 = Int.random(in: (Int.random(in: 0...correctAnswer / 4))...(Int.random(in: correctAnswer / 4...correctAnswer)))
             randomNumber2 = correctAnswer - randomNumber1
-            
         case "-":
             correctAnswer = Int.random(in: min...max)
-            randomNumber1 = correctAnswer
-            randomNumber2 = Int.random(in: 0...randomNumber1)
-            correctAnswer = randomNumber1 - randomNumber2
-            
+            randomNumber2 = Int.random(in: (Int.random(in: 0...correctAnswer / 4))...correctAnswer)
+            randomNumber1 = correctAnswer + randomNumber2
         case "×":
             let tempAnswer = {
                 var randNum = Int.random(in: min...max)

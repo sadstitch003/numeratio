@@ -79,9 +79,6 @@ struct GameSettingModalView: View {
                 selectedOperators: selectedOperators,
                 totalQuestion: numberOfQuestion
             )
-            .onDisappear {
-                dismiss()
-            }
         }
     }
 }

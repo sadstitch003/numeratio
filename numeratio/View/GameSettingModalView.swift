@@ -9,23 +9,23 @@ import SwiftUI
 
 struct GameSettingModalView: View {
     @Environment(\.dismiss) private var dismiss
-     
-    @State var numberOfQuestion: Int = 30
-    @State var difficultyLevel: Int = 3
+
+    @AppStorage("numberOfQuestion") private var numberOfQuestion: Int = 30
+    @AppStorage("difficultyLevel") private var difficultyLevel: Int = 3
     
-    @State var additionOperator: Bool = true
-    @State var subtractionOperator: Bool = true
-    @State var divisionOperator: Bool = true
-    @State var multiplicationOperator: Bool = true
+    @AppStorage("additionOperator") private var additionOperator: Bool = true
+    @AppStorage("subtractionOperator") private var subtractionOperator: Bool = true
+    @AppStorage("divisionOperator") private var divisionOperator: Bool = true
+    @AppStorage("multiplicationOperator") private var multiplicationOperator: Bool = true
     
-    @State var startGame: Bool = false
+    @State private var startGame: Bool = false
     
     var selectedOperators: [String] {
         var operators: [String] = []
-        additionOperator ? operators.append("+") : ()
-        subtractionOperator ? operators.append("-") : ()
-        multiplicationOperator ? operators.append("×") : ()
-        divisionOperator ? operators.append("÷") : ()
+        if additionOperator { operators.append("+") }
+        if subtractionOperator { operators.append("-") }
+        if multiplicationOperator { operators.append("×") }
+        if divisionOperator { operators.append("÷") }
         return operators
     }
     
@@ -34,22 +34,14 @@ struct GameSettingModalView: View {
             VStack {
                 Form {
                     Section(header: Text("Arithmetic Operations")) {
-                        Toggle(isOn: $additionOperator) {
-                            Text("Addition")
-                        }
-                        Toggle(isOn: $subtractionOperator) {
-                            Text("Subtraction")
-                        }
-                        Toggle(isOn: $divisionOperator) {
-                            Text("Division")
-                        }
-                        Toggle(isOn: $multiplicationOperator) {
-                            Text("Multiplication")
-                        }
+                        Toggle("Addition", isOn: $additionOperator)
+                        Toggle("Subtraction", isOn: $subtractionOperator)
+                        Toggle("Division", isOn: $divisionOperator)
+                        Toggle("Multiplication", isOn: $multiplicationOperator)
                     }
                     
                     Section(header: Text("Game Configuration")) {
-                        Picker("Number of Question", selection: $numberOfQuestion) {
+                        Picker("Number of Questions", selection: $numberOfQuestion) {
                             Text("5").tag(5)
                             Text("20").tag(20)
                             Text("30").tag(30)
@@ -73,7 +65,7 @@ struct GameSettingModalView: View {
             }
             .navigationBarTitle("Game Setting")
         }
-        .fullScreenCover(isPresented: $startGame){
+        .fullScreenCover(isPresented: $startGame) {
             GameView(
                 difficultyLevel: difficultyLevel,
                 selectedOperators: selectedOperators,

@@ -35,7 +35,7 @@ struct GameOverView: View {
             }
             .frame(width: 280, height: 160)
             .background(Color("BackgroundColor"))
-            .cornerRadius(16)
+            .cornerRadius(12)
         }
     }
 }
